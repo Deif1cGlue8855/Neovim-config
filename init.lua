@@ -18,7 +18,6 @@ vim.g.python_highlight_class_vars = 1
 vim.g.python_highlight_operators = 1
 vim.g.python_highlight_self = 1
 
---THIS IS A CHANGE
 -- Autocommands
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "text",
