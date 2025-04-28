@@ -100,6 +100,8 @@ vim.keymap.set("n", "<leader>r", "<cmd>Telescope lsp_references<CR>", { desc = "
 vim.api.nvim_set_keymap('n', '<leader>bn', ':bnext<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>bp', ':bprev<CR>', { noremap = true, silent = true })
 
+vim.api.nvim_set_keymap('n', '<leader>bd', ':bdel', {noremap = true, silent = true})
+
 
 
 vim.keymap.set("n", "<leader>bb", function()
@@ -442,8 +444,3 @@ require('telescope').setup{
   require("ibl").setup()
 end, 50) -- Wait 50ms after launch
 
---vim.api.nvim_set_hl(0, "cppSTLnamespace", { fg = "#ff9900", bold = true })  -- e.g., std::
---vim.api.nvim_set_hl(0, "cppAccess", { fg = "#00afff", bold = true })         -- public, private
---vim.api.nvim_set_hl(0, "cppStructure", { fg = "#ffaa00", bold = true })      -- struct names
---vim.api.nvim_set_hl(0, "cppSTLtype", { fg = "#ff5f87" })                     -- STL types like vector, map
---vim.api.nvim_set_hl(0, "cppType", { fg = "#5fd7ff" })                        -- general types
