@@ -144,6 +144,7 @@ require("lazy").setup({
 { "hrsh7th/cmp-buffer" },
 { "hrsh7th/cmp-path" },
 { "hrsh7th/cmp-cmdline" },
+{'hrsh7th/cmp-nvim-lsp'},
 { "L3MON4D3/LuaSnip", event = "InsertEnter" },
 { "saadparwaiz1/cmp_luasnip" },
 { "vim-denops/denops.vim", build = ":call denops#install()" },
@@ -157,6 +158,7 @@ require("lazy").setup({
 { "tpope/vim-abolish" },
 {'tpope/vim-fugitive'},
 {'nvim-telescope/telescope-ghq.nvim'},
+
 
 --GIT MANAGER
 {
@@ -359,13 +361,12 @@ require("lazy").setup({
 
 --LINES SHOWING INDENTATIONS
 {
-    "lukas-reineke/indent-blankline.nvim",
-    event = "BufReadPost",
-    main = "ibl",
-    ---@module "ibl"
-    ---@type ibl.config
-    opts = {},
-},
+    'nvimdev/indentmini.nvim',
+    event = 'BufEnter',
+    config = function()
+      require('indentmini').setup()
+    end,
+},   
 -----------------------------------------------------------------------------------    
 })
 
@@ -374,28 +375,17 @@ require("luasnip.loaders.from_vscode").lazy_load()
 require("mason-lspconfig").setup({
   ensure_installed = { "pyright" }
 })
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- LSP Setup
 local lspconfig = require("lspconfig")
 lspconfig.clangd.setup({
-  cmd = { "clangd" },
+  capabilities = capabilities,
+  cmd = { "clangd", "--background-index", "--clang-tidy" },
   filetypes = { "c", "cpp", "objc", "objcpp" },
   root_dir = lspconfig.util.root_pattern("CMakeLists.txt", ".git"),
   on_attach = function(client, bufnr)
     client.server_capabilities.semanticTokensProvider = nil
-  end,
-})
-
-lspconfig.pyright.setup({
-  on_attach = function(client, bufnr)
-    -- Bind K to show hover
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', { noremap = true, silent = true })
-
-    -- Customize the hover window appearance
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-      border = "rounded",         -- Optional: to make the popup look nicer
-      max_height = 20,            -- Adjust the height of the hover window
-      max_width = 200,             -- Adjust the width of the hover window
-    })
   end,
 })
 
@@ -419,7 +409,7 @@ cmp.setup({
     { name = "path" },
   }),
 })
-vim.defer_fn(function()
+--vim.defer_fn(function()
 vim.o.showtabline = 2
 --Telescope config settings
 require('telescope').setup{
@@ -441,6 +431,10 @@ require('telescope').setup{
   }
 }
 
-  require("ibl").setup()
-end, 50) -- Wait 50ms after launch
-
+require('indentmini').setup({
+  char = '│',
+  exclude = { 'markdown', 'help' },
+  minlevel = 1,
+  only_current = false,
+})
+vim.api.nvim_set_hl(0, 'IndentLine', { fg = '#2e2e2e' }) -- very dark gray
