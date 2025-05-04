@@ -8,6 +8,8 @@ vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.smarttab = true
 vim.g.mapleader = " "
+
+
 --For the folding plugin 
 vim.o.foldcolumn = "1"       -- show foldcolumn
 vim.o.foldenable = true      -- enable folding
@@ -100,7 +102,7 @@ vim.keymap.set("n", "<leader>r", "<cmd>Telescope lsp_references<CR>", { desc = "
 vim.api.nvim_set_keymap('n', '<leader>bn', ':bnext<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>bp', ':bprev<CR>', { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap('n', '<leader>bd', ':bdel', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>bd', ':bdel<CR>', {noremap = true, silent = true})
 
 
 
@@ -152,13 +154,13 @@ require("lazy").setup({
 { "rafamadriz/friendly-snippets", event = "VeryLazy" },
 { "octol/vim-cpp-enhanced-highlight"},
 { "nvim-treesitter/nvim-treesitter-context" , event = "VeryLazy"},   
---{ "p00f/clangd_extensions.nvim" , event = "VeryLazy"},
+{ "p00f/clangd_extensions.nvim" , event = "VeryLazy"},
 { "ray-x/lsp_signature.nvim", event = "VeryLazy" },
 { "vim-python/python-syntax", ft = "python" , event = "VeryLazy"},
 { "tpope/vim-abolish" },
 {'tpope/vim-fugitive'},
 {'nvim-telescope/telescope-ghq.nvim'},
-
+{'stevearc/vim-arduino'},
 
 --GIT MANAGER
 {
@@ -221,7 +223,7 @@ require("lazy").setup({
           lualine_b = {'branch', 'diff',"diagnostics"},
           lualine_c = { { "filename", path = 2 } },
           lualine_x = { "encoding", "fileformat", "filetype" },
-          lualine_y = { "progress" },
+          lualine_y = { "progress"},
           lualine_z = { "location" },
         },
         tabline = {
@@ -367,6 +369,7 @@ require("lazy").setup({
       require('indentmini').setup()
     end,
 },   
+
 -----------------------------------------------------------------------------------    
 })
 
@@ -438,3 +441,29 @@ require('indentmini').setup({
   only_current = false,
 })
 vim.api.nvim_set_hl(0, 'IndentLine', { fg = '#2e2e2e' }) -- very dark gray
+
+
+-- Install the plugin using lazy.nvim
+require('lazy').setup({
+  'stevearc/vim-arduino',  -- Arduino syntax highlighting and commands
+})
+
+-- Function to compile Arduino sketch using arduino-cli
+function compile_arduino_sketch()
+  local current_file = vim.fn.expand('%')  -- Get the current file path
+  local command = 'arduino-cli compile --fqbn arduino:avr:uno ' .. current_file
+  vim.cmd('! ' .. command)  -- Execute the command in the shell
+end
+
+-- Function to upload Arduino sketch using arduino-cli
+function upload_arduino_sketch()
+  local current_file = vim.fn.expand('%')  -- Get the current file path
+  local port = 'COMx'  -- Replace 'COMx' with your Arduino's COM port (e.g., COM3)
+  local command = 'arduino-cli upload -p ' .. port .. ' --fqbn arduino:avr:uno ' .. current_file
+  vim.cmd('! ' .. command)  -- Execute the command in the shell
+end
+
+-- Set key mappings for compile and upload commands
+vim.api.nvim_set_keymap('n', '<Leader>c', ':lua compile_arduino_sketch()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>u', ':lua upload_arduino_sketch()<CR>', { noremap = true, silent = true })
+
