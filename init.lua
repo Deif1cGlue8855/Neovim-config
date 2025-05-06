@@ -164,11 +164,7 @@ require("lazy").setup({
 
 --GIT MANAGER
 {
-  'lewis6991/gitsigns.nvim',
-  config = function()
-    require('gitsigns').setup({
-    })
-  end
+  --'lewis6991/gitsigns.nvim',
 },
 --MASON
 {
@@ -454,4 +450,6 @@ require('lazy').setup({
   'stevearc/vim-arduino',  -- Arduino syntax highlighting and commands
 })
 
-
+--require('gitsigns').setup ({
+--    attach_to_untracked = false,
+--})
