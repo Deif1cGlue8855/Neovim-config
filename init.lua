@@ -15,6 +15,7 @@ vim.o.foldcolumn = "1"       -- show foldcolumn
 vim.o.foldenable = true      -- enable folding
 vim.o.foldmethod = 'expr'    -- <-- this is CRITICAL
 vim.o.foldexpr = 'v:lua.require("ufo").get_fold_expr()' -- <-- UFO uses this
+
 --For python syntax highlighting
 vim.g.python_highlight_class_vars = 1
 vim.g.python_highlight_operators = 1
@@ -160,13 +161,13 @@ require("lazy").setup({
 { "tpope/vim-abolish" },
 {'tpope/vim-fugitive'},
 {'nvim-telescope/telescope-ghq.nvim'},
-{'stevearc/vim-arduino'},
 
 --GIT MANAGER
 {
   'lewis6991/gitsigns.nvim',
   config = function()
-    require('gitsigns').setup()
+    require('gitsigns').setup({
+    })
   end
 },
 --MASON
@@ -379,7 +380,12 @@ require("mason-lspconfig").setup({
   ensure_installed = { "pyright" }
 })
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+local cmp_nvim_lsp = require("cmp_nvim_lsp")
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 -- LSP Setup
 local lspconfig = require("lspconfig")
 lspconfig.clangd.setup({
@@ -448,22 +454,4 @@ require('lazy').setup({
   'stevearc/vim-arduino',  -- Arduino syntax highlighting and commands
 })
 
--- Function to compile Arduino sketch using arduino-cli
-function compile_arduino_sketch()
-  local current_file = vim.fn.expand('%')  -- Get the current file path
-  local command = 'arduino-cli compile --fqbn arduino:avr:uno ' .. current_file
-  vim.cmd('! ' .. command)  -- Execute the command in the shell
-end
-
--- Function to upload Arduino sketch using arduino-cli
-function upload_arduino_sketch()
-  local current_file = vim.fn.expand('%')  -- Get the current file path
-  local port = 'COMx'  -- Replace 'COMx' with your Arduino's COM port (e.g., COM3)
-  local command = 'arduino-cli upload -p ' .. port .. ' --fqbn arduino:avr:uno ' .. current_file
-  vim.cmd('! ' .. command)  -- Execute the command in the shell
-end
-
--- Set key mappings for compile and upload commands
-vim.api.nvim_set_keymap('n', '<Leader>c', ':lua compile_arduino_sketch()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>u', ':lua upload_arduino_sketch()<CR>', { noremap = true, silent = true })
 
