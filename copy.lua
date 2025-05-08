@@ -11,6 +11,7 @@ vim.g.mapleader = " "
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 
+
 --For the folding plugin 
 vim.o.foldcolumn = "1"       -- show foldcolumn
 vim.o.foldenable = true      -- enable folding
@@ -103,8 +104,6 @@ vim.api.nvim_set_keymap('n', '<C-a>', 'ggVG', { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader><Space>", ":nohlsearch<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-j>", "<C-e>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-k>", "<C-y>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fw', ":Telescope file_browser cwd=/run/media/arlo/01DBBF8B43F5E770/Users/arlot<CR>", { noremap = true, silent = true })
-
 -- Bind <leader>mp to toggle Markdown Preview
 vim.keymap.set("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<CR>", { desc = "Toggle Markdown Preview" })
 
@@ -344,7 +343,8 @@ require("lazy").setup({
         reduce_cursorline = false,
         fold_options = {
             enabled = false,
-            start_color = "#C1C1C1", end_color = "#2F2F2F",
+            start_color = "#C1C1C1",
+            end_color = "#2F2F2F",
         },
     },
   },
@@ -460,6 +460,4 @@ vim.api.nvim_set_hl(0, 'IndentLine', { fg = '#2e2e2e' }) -- very dark gray
 require('lazy').setup({
   'stevearc/vim-arduino',  -- Arduino syntax highlighting and commands
 })
-
-require("telescope").load_extension("file_browser")
 
