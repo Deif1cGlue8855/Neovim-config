@@ -8,6 +8,8 @@ vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.smarttab = true
 vim.g.mapleader = " "
+vim.opt.encoding = "utf-8"
+vim.opt.fileencoding = "utf-8"
 
 
 --For the folding plugin 
@@ -30,6 +32,15 @@ vim.api.nvim_create_autocmd("FileType", {
     pattern = "text",
     command = "setlocal wrap linebreak nolist"
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.wrap = true        -- visually wrap long lines
+    vim.opt_local.linebreak = true   -- wrap at word boundaries, not mid-word
+  end,
+})
+
 vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "*",
     callback = function()
@@ -450,6 +461,3 @@ require('lazy').setup({
   'stevearc/vim-arduino',  -- Arduino syntax highlighting and commands
 })
 
---require('gitsigns').setup ({
---    attach_to_untracked = false,
---})
