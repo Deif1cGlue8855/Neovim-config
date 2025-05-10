@@ -103,8 +103,8 @@ vim.api.nvim_set_keymap('n', '<C-a>', 'ggVG', { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader><Space>", ":nohlsearch<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-j>", "<C-e>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-k>", "<C-y>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fw', ":Telescope file_browser cwd=/run/media/arlo/01DBBF8B43F5E770/Users/arlot<CR>", { noremap = true, silent = true })
-
+--vim.api.nvim_set_keymap('n', '<leader>fw', ":Telescope file_browser cwd=/run/media/arlo/01DBBF8B43F5E770/Users/arlot<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>fw', ":Telescope file_browser cwd=/mnt/Users/arlot<CR>", { noremap = true, silent = true })
 -- Bind <leader>mp to toggle Markdown Preview
 vim.keymap.set("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<CR>", { desc = "Toggle Markdown Preview" })
 
@@ -462,4 +462,3 @@ require('lazy').setup({
 })
 
 require("telescope").load_extension("file_browser")
-

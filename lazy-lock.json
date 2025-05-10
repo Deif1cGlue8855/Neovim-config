@@ -9,6 +9,7 @@
   "dashboard-nvim": { "branch": "master", "commit": "591b5b29e2f17b97496ec3179f6ecd08bb8502cc" },
   "denops.vim": { "branch": "main", "commit": "4ff8f353ee54ee67288c1099242444ccb0ab5b69" },
   "friendly-snippets": { "branch": "main", "commit": "572f5660cf05f8cd8834e096d7b4c921ba18e175" },
+  "headlines.nvim": { "branch": "master", "commit": "bf17c96a836ea27c0a7a2650ba385a7783ed322e" },
   "indentmini.nvim": { "branch": "main", "commit": "b51cd09456c133b51115448dfb58e84465432029" },
   "kanagawa.nvim": { "branch": "master", "commit": "cc3b68b08e6a0cb6e6bf9944932940091e49bb83" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
