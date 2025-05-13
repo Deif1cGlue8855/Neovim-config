@@ -103,8 +103,9 @@ vim.api.nvim_set_keymap('n', '<C-a>', 'ggVG', { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader><Space>", ":nohlsearch<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-j>", "<C-e>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-k>", "<C-y>", { noremap = true, silent = true })
---vim.api.nvim_set_keymap('n', '<leader>fw', ":Telescope file_browser cwd=/run/media/arlo/01DBBF8B43F5E770/Users/arlot<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fw', ":Telescope file_browser cwd=/mnt/Users/arlot<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+
 -- Bind <leader>mp to toggle Markdown Preview
 vim.keymap.set("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<CR>", { desc = "Toggle Markdown Preview" })
 
@@ -237,7 +238,7 @@ require("lazy").setup({
         },
         tabline = {
             lualine_a = {'buffers'},
-            lualine_y = {'os.date()'},
+            lualine_y = {'os.date("%d-%m-%Y %H:%M")'},
             lualine_z = {'tabs'},
         },
      })
@@ -462,3 +463,42 @@ require('lazy').setup({
 })
 
 require("telescope").load_extension("file_browser")
+
+local telescope = require('telescope')
+local pickers = require('telescope.pickers')
+local finders = require('telescope.finders')
+local conf = require('telescope.config').values
+
+local function spell_suggest()
+  local word = vim.fn.expand("<cword>")
+  local suggestions = vim.fn.spellsuggest(word)
+
+  if #suggestions == 0 then
+    print("No suggestions found for: " .. word)
+    return
+  end
+
+  pickers.new({}, {
+    prompt_title = "Spelling Suggestions for: " .. word,
+    finder = finders.new_table {
+      results = suggestions
+    },
+    sorter = conf.generic_sorter({}),
+    attach_mappings = function(prompt_bufnr, map)
+      local actions = require('telescope.actions')
+      local action_state = require('telescope.actions.state')
+
+      map('i', '<CR>', function()
+        local selection = action_state.get_selected_entry()
+        actions.close(prompt_bufnr)
+        vim.cmd("normal ciw" .. selection[1])
+      end)
+
+      return true
+    end,
+  }):find()
+end
+
+-- Optional: map it to a key like <leader>zs
+vim.keymap.set('n', '<leader>z=', spell_suggest, { desc = "Telescope spell suggest" })
+
