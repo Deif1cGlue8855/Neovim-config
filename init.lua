@@ -500,5 +500,5 @@ local function spell_suggest()
 end
 
 -- Optional: map it to a key like <leader>zs
-vim.keymap.set('n', '<leader>z=', spell_suggest, { desc = "Telescope spell suggest" })
+vim.keymap.set('n', 'z=', spell_suggest, { desc = "Telescope spell suggest" })
 
