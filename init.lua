@@ -119,7 +119,6 @@ vim.api.nvim_set_keymap('n', '<leader>bp', ':bprev<CR>', { noremap = true, silen
 vim.api.nvim_set_keymap('n', '<leader>bd', ':bdel<CR>', {noremap = true, silent = true})
 
 
-
 vim.keymap.set("n", "<leader>bb", function()
   require("telescope.builtin").buffers()
 end, { desc = "List Buffers" })
@@ -150,9 +149,10 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+
 require("lazy").setup({
 -- SMALLER IMPORTS
-{ "rebelot/kanagawa.nvim",config = function() vim.cmd.colorscheme("kanagawa") end },   
+--{ "rebelot/kanagawa.nvim",config = function() vim.cmd.colorscheme("kanagawa") end },   
 --{ "olimorris/onedarkpro.nvim", config = function() vim.cmd.colorscheme("onedark") end },
 { "glepnir/dashboard-nvim", event = "VimEnter" },
 { "neovim/nvim-lspconfig",event = "BufReadPre" },
@@ -174,6 +174,26 @@ require("lazy").setup({
 { "tpope/vim-abolish" },
 {'tpope/vim-fugitive'},
 {'nvim-telescope/telescope-ghq.nvim'},
+
+{
+  "ellisonleao/gruvbox.nvim",
+  priority = 1000,  -- Make sure it loads before other plugins
+  config = function()
+    require("gruvbox").setup({
+      -- Optional settings:
+        contrast = "soft", -- "soft", "medium", "hard"
+        transparent_mode = true,
+        italic = {
+            strings = true,
+            comments = true,
+            operators = false,
+            folds = true,
+	    },
+        dim_inactive = true,
+    })
+    vim.cmd.colorscheme("gruvbox")
+  end
+},
 
 --GIT MANAGER
 {
@@ -501,4 +521,12 @@ end
 
 -- Optional: map it to a key like <leader>zs
 vim.keymap.set('n', 'z=', spell_suggest, { desc = "Telescope spell suggest" })
+
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "markdown", "html" },
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+}
 
