@@ -15,7 +15,7 @@ vim.opt.fileencoding = "utf-8"
 vim.o.foldcolumn = "1"       -- show foldcolumn
 vim.o.foldenable = true      -- enable folding
 vim.o.foldmethod = 'expr'    -- <-- this is CRITICAL
-vim.o.foldexpr = 'v:lua.require("ufo").get_fold_expr()' -- <-- UFO uses this
+--vim.o.foldexpr = 'v:lua.require("ufo").get_fold_expr()' -- <-- UFO uses this
 
 --For python syntax highlighting
 vim.g.python_highlight_class_vars = 1
@@ -96,8 +96,8 @@ vim.api.nvim_set_keymap("n", ".", "<Cmd>tabnext<CR>", { noremap = true, silent =
 vim.api.nvim_set_keymap("n", "fb", ":Telescope file_browser<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<Tab>', '    ', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<S-Tab>', '<C-d>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'a', 'i', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 's', 'a', { noremap = true, silent = true })
+--vim.api.nvim_set_keymap('n', 'a', 'i', { noremap = true, silent = true })
+--vim.api.nvim_set_keymap('n', 's', 'a', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-a>', 'ggVG', { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader><Space>", ":nohlsearch<CR>", { noremap = true, silent = true })
@@ -194,11 +194,6 @@ require("lazy").setup({
     vim.cmd.colorscheme("gruvbox")
   end
 },
-
---GIT MANAGER
-{
-  --'lewis6991/gitsigns.nvim',
-},
 --MASON
 {
     "williamboman/mason.nvim",
@@ -268,7 +263,7 @@ require("lazy").setup({
 {
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
-    requires = { {'nvim-lua/plenary.nvim'} },
+    --requires = { {'nvim-lua/plenary.nvim'} },
     config = function()
       require("telescope").setup({ defaults = { preview = { filetype_detect = false } } })
     end,
@@ -520,7 +515,7 @@ local function spell_suggest()
 end
 
 -- Optional: map it to a key like <leader>zs
-vim.keymap.set('n', 'z=', spell_suggest, { desc = "Telescope spell suggest" })
+vim.keymap.set("n", "z=", "<cmd>Telescope spell_suggest<CR>")
 
 require'nvim-treesitter.configs'.setup {
   ensure_installed = { "markdown", "html" },
@@ -529,4 +524,3 @@ require'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
 }
-
