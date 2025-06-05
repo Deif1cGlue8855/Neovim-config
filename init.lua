@@ -1,4 +1,4 @@
-vim.opt.shadafile = "NONE"
+vim.optshadafile = "NONE"
 vim.opt.splitright = true
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -103,6 +103,7 @@ vim.api.nvim_set_keymap('n', '<C-a>', 'ggVG', { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader><Space>", ":nohlsearch<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-j>", "<C-e>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-k>", "<C-y>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>wc', ':WordCount<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fw', ":Telescope file_browser cwd=/mnt/Users/arlot<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 
@@ -174,7 +175,6 @@ require("lazy").setup({
 { "tpope/vim-abolish" },
 {'tpope/vim-fugitive'},
 {'nvim-telescope/telescope-ghq.nvim'},
-
 {
   "ellisonleao/gruvbox.nvim",
   priority = 1000,  -- Make sure it loads before other plugins
@@ -248,7 +248,7 @@ require("lazy").setup({
           lualine_b = {'branch', 'diff',"diagnostics"},
           lualine_c = { { "filename", path = 2 } },
           lualine_x = { "encoding", "fileformat", "filetype" },
-          lualine_y = { "progress"},
+          lualine_y = { "progress",require("myplugins.counterLine").get_counts},
           lualine_z = { "location" },
         },
         tabline = {
@@ -524,3 +524,15 @@ require'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
 }
+
+return {
+  {
+    "custom/counter",
+    name = "counter",
+    lazy = false,
+    config = function()
+      require("myplugins.counter")
+    end,
+  },
+}
+
