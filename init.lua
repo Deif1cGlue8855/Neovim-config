@@ -11,6 +11,8 @@ vim.g.mapleader = " "
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 
+
+
 --For the folding plugin 
 vim.o.foldcolumn = "1"       -- show foldcolumn
 vim.o.foldenable = true      -- enable folding
@@ -241,7 +243,7 @@ require("lazy").setup({
         options = {
           theme = 'auto',
           section_separators = { left = "", right = "" },
-          component_separators = {left = "╲", right = "╱"} ,
+          component_separators = {left = "╲", right = "╲"} ,
         },
         sections = {
           lualine_a = { "mode" },
@@ -393,6 +395,7 @@ require("lazy").setup({
       require('indentmini').setup()
     end,
 },   
+--Image viewer
 
 -----------------------------------------------------------------------------------    
 })
@@ -535,4 +538,3 @@ return {
     end,
   },
 }
-
