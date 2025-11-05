@@ -12,7 +12,6 @@ vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 
 
-
 --For the folding plugin 
 vim.o.foldcolumn = "1"       -- show foldcolumn
 vim.o.foldenable = true      -- enable folding
@@ -93,6 +92,8 @@ function ToggleDiagnostics()
     diagnostics_enabled = not diagnostics_enabled
 end
 
+vim.opt.makeprg = "g++ % -o %< -lraylib -lm -ldl -lpthread -lGL -lX11"
+
 -- Keymaps
 vim.api.nvim_set_keymap("n", ".", "<Cmd>tabnext<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "fb", ":Telescope file_browser<CR>", { noremap = true, silent = true })
@@ -107,6 +108,9 @@ vim.api.nvim_set_keymap("n", "<C-j>", "<C-e>", { noremap = true, silent = true }
 vim.api.nvim_set_keymap("n", "<C-k>", "<C-y>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>wc', ':WordCount<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fw', ":Telescope file_browser cwd=/mnt/Users/arlot<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>ca', ":wa | !g++ *.cpp -o build<CR>", { noremap = true, silent = true})
+
+vim.api.nvim_set_keymap('n', '<leader>cna', ":wa | !g++ *.cpp -lncurses -o build<CR>", { noremap = true, silent = true})
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 
 -- Bind <leader>mp to toggle Markdown Preview
