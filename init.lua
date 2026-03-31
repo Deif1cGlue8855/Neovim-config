@@ -109,8 +109,10 @@ vim.api.nvim_set_keymap("n", "<C-k>", "<C-y>", { noremap = true, silent = true }
 vim.api.nvim_set_keymap('n', '<leader>wc', ':WordCount<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fw', ":Telescope file_browser cwd=/mnt/Users/arlot<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>ca', ":wa | !g++ *.cpp -o build<CR>", { noremap = true, silent = true})
+--Run HTML files
+vim.api.nvim_set_keymap('n', '<leader>wr', ":wa | !xdg-open % <CR>", { noremap = true, silent = true})
 
-vim.api.nvim_set_keymap('n', '<leader>cna', ":wa | !g++ *.cpp -lncurses -o build<CR>", { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>cna', ":wa | !g++ *.cpp -lncursesw -o build<CR>", { noremap = true, silent = true})
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 
 -- Bind <leader>mp to toggle Markdown Preview
@@ -228,7 +230,7 @@ require("lazy").setup({
     end,
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "cpp", "python" },--       
+        ensure_installed = {"javascript", "cpp", "python" },--       
         highlight = {
             enable = true,
             disable = { "cpp", "c" },
@@ -453,6 +455,7 @@ vim.o.showtabline = 2
 --Telescope config settings
 require('telescope').setup{
   defaults = {
+    file_ignore_patterns = {},
     prompt_prefix = ">",
     selection_caret = "",
     entry_prefix = "  ",
@@ -467,7 +470,13 @@ require('telescope').setup{
     winblend = 25, -- transparency (0 = opaque, 100 = fully transparent)
     results_title = false,
     preview_title = false,
-  }
+  },
+    pickers = {
+        find_files = {
+            hidden = true, -- Some setups might use this instead of passing in command
+            no_ignore = false, -- To respect .gitignore while showing hidden
+        },
+    },
 }
 
 require('indentmini').setup({
