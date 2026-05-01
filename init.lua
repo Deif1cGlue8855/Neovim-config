@@ -10,7 +10,9 @@ vim.opt.smarttab = true
 vim.g.mapleader = " "
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
-
+vim.opt.autoindent = true
+vim.opt.smartindent = true
+vim.opt.cindent = true
 
 --For the folding plugin 
 vim.o.foldcolumn = "1"       -- show foldcolumn
@@ -218,7 +220,6 @@ require("lazy").setup({
     dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
     config = function()
       require("mason-lspconfig").setup({ ensure_installed = { "marksman" } })
-      require("lspconfig").marksman.setup({})
     end,
 },
 -- TREE SITTER
@@ -238,6 +239,11 @@ require("lazy").setup({
         indent = { enable = true },
       })
     end,
+},
+-- AUTO INDENT
+{
+    'vidocqh/auto-indent.nvim',
+    opts = {},
 },
 -- LUALINE
 {
@@ -419,16 +425,28 @@ capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- LSP Setup
-local lspconfig = require("lspconfig")
-lspconfig.clangd.setup({
-  capabilities = capabilities,
-  cmd = { "clangd", "--background-index", "--clang-tidy" },
-  filetypes = { "c", "cpp", "objc", "objcpp" },
-  root_dir = lspconfig.util.root_pattern("CMakeLists.txt", ".git"),
-  on_attach = function(client, bufnr)
-    client.server_capabilities.semanticTokensProvider = nil
-  end,
+local cmp_nvim_lsp = require("cmp_nvim_lsp")
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
+vim.lsp.config("clangd", {
+    capabilities = capabilities,
+    cmd = { "clangd", "--background-index", "--clang-tidy" },
+    filetypes = { "c", "cpp", "objc", "objcpp" },
+    root_markers = { "CMakeLists.txt", ".git" },
+    on_attach = function(client, bufnr)
+        client.server_capabilities.semanticTokensProvider = nil
+    end,
 })
+
+vim.lsp.enable("clangd")
+
+vim.lsp.config("marksman", {
+    capabilities = capabilities,
+})
+
+vim.lsp.enable("marksman")
 
 -- nvim-cmp Setup
 local cmp = require("cmp")
@@ -489,10 +507,6 @@ vim.api.nvim_set_hl(0, 'IndentLine', { fg = '#2e2e2e' }) -- very dark gray
 
 
 -- Install the plugin using lazy.nvim
-require('lazy').setup({
-  'stevearc/vim-arduino',  -- Arduino syntax highlighting and commands
-})
-
 require("telescope").load_extension("file_browser")
 
 local telescope = require('telescope')
